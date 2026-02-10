@@ -30,6 +30,8 @@
             display: inline-block;
             margin: 20px;
         }
+        /* ELIMINAR ESTOS ESTILOS VIEJOS DEL MAPA */
+        /*
         .map-container {
             position: relative;
             height: 400px;
@@ -54,6 +56,7 @@
             top: 75%;
             left: 25%;
         }
+        */
         .message {
             background: rgba(255, 255, 255, 0.8);
             padding: 30px;
@@ -67,6 +70,50 @@
             margin-top: 30px;
             font-weight: bold;
         }
+        /* Estilos para el nuevo mapa SVG */
+        .map-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 40px 0;
+            background: #e6f7ff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .carrusel-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+        .carrusel-foto {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border: 5px solid white;
+            transition: opacity 0.3s ease;
+        }
+        .carrusel-boton {
+            background: rgba(255, 71, 87, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .carrusel-boton:hover {
+            background: rgba(255, 71, 87, 1);
+            transform: scale(1.1);
+        }
+        .punto-activo {
+            background: #ff4757 !important;
+            width: 15px !important;
+            height: 15px !important;
+        }
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -76,9 +123,13 @@
             50% { opacity: 1; }
             100% { opacity: 0.8; }
         }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px #ff4757; }
-            50% { box-shadow: 0 0 25px #ff4757; }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes latido {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
     </style>
 </head>
@@ -89,9 +140,41 @@
         
         <p><em>Aunque kilómetros nos separan, mi corazón siempre está contigo amorcito.</em></p>
         
+        <!-- MAPA SVG CORREGIDO -->
         <div class="map-container">
-            <div class="point france"></div>
-            <div class="point chile"></div>
+            <svg viewBox="0 0 800 400" style="width: 100%; height: 100%;">
+                <!-- Fondo del mapa -->
+                <rect width="100%" height="100%" fill="#e6f7ff" rx="10"/>
+                
+                <!-- Continentes simplificados -->
+                <path d="M150,150 Q200,100 250,150 T350,150 Q400,180 450,150 T550,140 L550,250 L150,250 Z" 
+                      fill="#c9e6ff" stroke="#4da6ff" stroke-width="2"/>
+                
+                <!-- Línea que une los puntos -->
+                <line x1="600" y1="180" x2="200" y2="300" stroke="#ff4757" stroke-width="3" stroke-dasharray="10,5" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
+                </line>
+                
+                <!-- Francia -->
+                <circle cx="600" cy="180" r="15" fill="#ff4757">
+                    <animate attributeName="r" values="10;15;10" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="220" text-anchor="middle" fill="#5d001e" font-weight="bold" font-size="16">Francia 🇫🇷</text>
+                <text x="600" y="240" text-anchor="middle" fill="#ff4757" font-size="14">(Donde estoy yo)</text>
+                
+                <!-- Chile -->
+                <circle cx="200" cy="300" r="15" fill="#ff4757">
+                    <animate attributeName="r" values="10;15;10" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                </circle>
+                <text x="200" y="340" text-anchor="middle" fill="#5d001e" font-weight="bold" font-size="16">Chile 🇨🇱</text>
+                <text x="200" y="360" text-anchor="middle" fill="#ff4757" font-size="14">(Donde estás tú)</text>
+                
+                <!-- Corazones flotantes -->
+                <text x="400" y="240" text-anchor="middle" fill="#ff4757" font-size="24">
+                    ❤️
+                    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-5; 0,0" dur="2s" repeatCount="indefinite"/>
+                </text>
+            </svg>
         </div>
         
         <div class="message">
@@ -102,27 +185,27 @@
                 Esta pasantía en Francia es temporal, y aunque no esté contigo, mi amor por ti es inmenso. 
                 Cada día que pasa es un día menos para volver a abrazarte y darte besitos.
             </p>
-            <p>Con todo mi amor,<br><strong>Tu pololo que te extaña mucho</strong></p>
+            <p>Con todo mi amor,<br><strong>Tu pololo que te extraña mucho</strong></p>
         </div>
 
-        <!-- CARRUSEL DE FOTOS - Agrega esto después del div class="message" -->
-        <div style="margin: 40px 0; text-align: center;">
+        <!-- CARRUSEL DE FOTOS -->
+        <div class="carrusel-container">
             <h2 style="color: #5d001e; margin-bottom: 20px;">❤️ Recuerdos que guardo en mi corazón ❤️</h2>
     
             <div id="carrusel" style="max-width: 500px; margin: 20px auto; position: relative;">
                 <img id="fotoCarrusel" src="foto1.JPEG" 
-                alt="Nuestras fotos" 
-                    style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 5px solid white;">
+                     alt="Nuestras fotos" 
+                     class="carrusel-foto">
         
                 <div style="display: flex; justify-content: space-between; position: absolute; top: 50%; width: 100%; transform: translateY(-50%); padding: 0 10px;">
-                    <button onclick="cambiarFoto(-1)" style="background: rgba(255, 71, 87, 0.8); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; transition: 0.3s;">❮</button>
-                    <button onclick="cambiarFoto(1)" style="background: rgba(255, 71, 87, 0.8); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; transition: 0.3s;">❯</button>
+                    <button onclick="cambiarFoto(-1)" class="carrusel-boton">❮</button>
+                    <button onclick="cambiarFoto(1)" class="carrusel-boton">❯</button>
                 </div>
         
                 <div style="margin-top: 15px; padding: 10px;">
-                    <p id="descripcionFoto" style="font-style: italic; color: #5d001e; font-size: 1.1em; min-height: 30px;">El día que todo comenzó 💖</p>
+                    <p id="descripcionFoto" style="font-style: italic; color: #5d001e; font-size: 1.1em; min-height: 30px;">Agradezco cada momento contigo 💖</p>
                     <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                        <span id="punto1" style="width: 12px; height: 12px; background: #ff4757; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+                        <span id="punto1" class="punto-activo" style="width: 12px; height: 12px; background: #ff4757; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
                         <span id="punto2" style="width: 12px; height: 12px; background: #ffafbd; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
                         <span id="punto3" style="width: 12px; height: 12px; background: #ffafbd; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
                         <span id="punto4" style="width: 12px; height: 12px; background: #ffafbd; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
@@ -130,9 +213,37 @@
                 </div>
             </div>
         </div>
+        
+        <div class="countdown">
+            Faltan <span id="days">--</span> días para volver a verte
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <button onclick="showSurprise()" style="padding: 15px 30px; background:#ff4757; color:white; border:none; border-radius:50px; font-size:1.2em; cursor:pointer; transition: 0.3s; animation: latido 2s infinite;">
+                Haz clic para una sorpresa
+            </button>
+        </div>
+        
+        <div id="surprise" style="display:none; margin-top:30px;">
+            <h3>🎵 Te dedico esta canción que me recuerda a ti 🎵</h3>
+            <div style="margin: 20px 0;">
+                <iframe 
+                    width="300" 
+                    height="200" 
+                    src="https://www.youtube.com/embed/Q4G4GG6DSzQ" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    style="border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                </iframe>
+            </div>
+            <p><em>Puedes darle play cuando quieras escucharla 💖</em></p>
+        </div>
+    </div>
 
-        <script>
-// Configuración del carrusel
+    <script>
+        // CARRUSEL DE FOTOS
         const fotos = [
             {url: "foto1.JPEG", desc: "Agradezco cada momento contigo 💖"},
             {url: "foto2.JPEG", desc: "Eres muy especial para mi 🌟"},
@@ -142,17 +253,25 @@
 
         let fotoActual = 0;
 
-// Función para cambiar foto
         function cambiarFoto(direccion) {
-    // Actualizar índice
             fotoActual += direccion;
             if (fotoActual < 0) fotoActual = fotos.length - 1;
             if (fotoActual >= fotos.length) fotoActual = 0;
-    
-    // Aplicar transición suave
+            
+            actualizarCarrusel();
+        }
+
+        function irAFoto(indice) {
+            if (indice >= 0 && indice < fotos.length) {
+                fotoActual = indice;
+                actualizarCarrusel();
+            }
+        }
+
+        function actualizarCarrusel() {
             const imagen = document.getElementById('fotoCarrusel');
             imagen.style.opacity = '0.5';
-    
+            
             setTimeout(() => {
                 imagen.src = fotos[fotoActual].url;
                 document.getElementById('descripcionFoto').textContent = fotos[fotoActual].desc;
@@ -161,36 +280,26 @@
             }, 200);
         }
 
-// Función para ir a una foto específica
-        function irAFoto(indice) {
-            if (indice >= 0 && indice < fotos.length) {
-                fotoActual = indice;
-        
-                const imagen = document.getElementById('fotoCarrusel');
-                imagen.style.opacity = '0.5';
-        
-                setTimeout(() => {
-                    imagen.src = fotos[fotoActual].url;
-                    document.getElementById('descripcionFoto').textContent = fotos[fotoActual].desc;
-                    actualizarPuntos();
-                    imagen.style.opacity = '1';
-                }, 200);
-            }
-        }
-
-// Función para actualizar los puntos indicadores
         function actualizarPuntos() {
             for (let i = 0; i < 4; i++) {
                 const punto = document.getElementById(`punto${i + 1}`);
                 if (punto) {
-                    punto.style.background = i === fotoActual ? '#ff4757' : '#ffafbd';
-                    punto.style.width = i === fotoActual ? '15px' : '12px';
-                    punto.style.height = i === fotoActual ? '15px' : '12px';
+                    if (i === fotoActual) {
+                        punto.classList.add('punto-activo');
+                        punto.style.background = '#ff4757';
+                        punto.style.width = '15px';
+                        punto.style.height = '15px';
+                    } else {
+                        punto.classList.remove('punto-activo');
+                        punto.style.background = '#ffafbd';
+                        punto.style.width = '12px';
+                        punto.style.height = '12px';
+                    }
                 }
             }
         }
 
-// Asignar eventos a los puntos
+        // Asignar eventos a los puntos
         document.addEventListener('DOMContentLoaded', function() {
             for (let i = 0; i < 4; i++) {
                 const punto = document.getElementById(`punto${i + 1}`);
@@ -199,46 +308,13 @@
                 }
             }
             actualizarPuntos();
+            
+            // Cambiar automáticamente cada 5 segundos
+            setInterval(() => cambiarFoto(1), 5000);
         });
 
-// Cambiar automáticamente cada 5 segundos
-        setInterval(() => cambiarFoto(1), 5000);
-        </script>
-        
-        <div class="countdown">
-            Faltan <span id="days">--</span> días para volver a verte
-        </div>
-        
-        <div style="margin-top: 40px;">
-            <button onclick="showSurprise()" style="padding: 15px 30px; background:#ff4757; color:white; border:none; border-radius:50px; font-size:1.2em; cursor:pointer;">
-                Haz clic para una sorpresa
-            </button>
-        </div>
-        
-        <div id="surprise" style="display:none; margin-top:30px;">
-    <h3>🎵 Te dedico esta canción que me recuerda a ti 🎵</h3>
-
-    <!-- Reproductor de YouTube mejorado -->
-    <div style="margin: 20px 0;">
-        <iframe 
-            width="300" 
-            height="200" 
-            src="https://www.youtube.com/embed/Q4G4GG6DSzQ" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen
-            style="border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
-        </iframe>
-    </div>
-
-    <p><em>Puedes darle play cuando quieras escucharla 💖</em></p>
-</div>
-    </div>
-
-    <script>
-        // Countdown
-        const returnDate = new Date('2026-03-05').getTime(); // Cambia a tu fecha de retorno
+        // COUNTDOWN
+        const returnDate = new Date('2026-03-05').getTime();
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = returnDate - now;
@@ -248,12 +324,12 @@
         updateCountdown();
         setInterval(updateCountdown, 86400000);
         
-        // Surprise
+        // SURPRISE
         function showSurprise() {
             document.getElementById('surprise').style.display = 'block';
         }
         
-        // Agregar corazones flotantes
+        // CORAZONES FLOTANTES
         function createHearts() {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
@@ -262,23 +338,15 @@
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
             heart.style.opacity = '0.7';
-            heart.style.animation = `float ${Math.random() * 5 + 3}s linear infinite`;
+            heart.style.zIndex = '9999';
+            heart.style.pointerEvents = 'none';
+            heart.style.animation = `float ${Math.random() * 5 + 3}s linear forwards`;
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 5000);
         }
         
         // Crear corazones cada cierto tiempo
         setInterval(createHearts, 800);
-        
-        // Agregar estilo para flotar
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-                100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
