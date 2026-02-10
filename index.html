@@ -90,8 +90,38 @@
         <p><em>Aunque kilómetros nos separan, mi corazón siempre está contigo amorcito.</em></p>
         
         <div class="map-container">
-            <div class="point france"></div>
-            <div class="point chile"></div>
+    <!-- Mapa SVG simplificado -->
+            <svg viewBox="0 0 800 400" style="width: 100%; height: 100%;">
+        <!-- Fondo del mapa -->
+                <rect width="100%" height="100%" fill="#e6f7ff" rx="10"/>
+        
+        <!-- Continentes simplificados -->
+                <path d="M150,150 Q200,100 250,150 T350,150 Q400,180 450,150 T550,140 L550,250 L150,250 Z" 
+                    fill="#c9e6ff" stroke="#4da6ff" stroke-width="2"/>
+        
+        <!-- Línea que une los puntos -->
+                <line x1="600" y1="180" x2="200" y2="300" stroke="#ff4757" stroke-width="3" stroke-dasharray="10,5" opacity="0.7">
+                    <animate attributeName="stroke-dashoffset" from="100" to="0" dur="3s" repeatCount="indefinite"/>
+                </line>
+        
+        <!-- Francia -->
+                <circle cx="600" cy="180" r="15" fill="#ff4757">
+                    <animate attributeName="r" values="10;15;10" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <text x="600" y="220" text-anchor="middle" fill="#5d001e" font-weight="bold">Francia 🇫🇷</text>
+                <text x="600" y="240" text-anchor="middle" fill="#ff4757" font-size="0.9em">(Donde estoy yo)</text>
+        
+        <!-- Chile -->
+                <circle cx="200" cy="300" r="15" fill="#ff4757">
+                    <animate attributeName="r" values="10;15;10" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                </circle>
+                <text x="200" y="340" text-anchor="middle" fill="#5d001e" font-weight="bold">Chile 🇨🇱</text>
+                <text x="200" y="360" text-anchor="middle" fill="#ff4757" font-size="0.9em">(Donde estás tú)</text>
+        
+        <!-- Corazones flotantes en la línea -->
+                <text x="400" y="240" text-anchor="middle" fill="#ff4757" font-size="24">❤️</text>
+                <animateTransform attributeName="transform" type="translate" values="0,0; 0,-5; 0,0" dur="2s" repeatCount="indefinite"/>
+            </svg>
         </div>
         
         <div class="message">
@@ -134,7 +164,7 @@
         <script>
 // Configuración del carrusel
         const fotos = [
-            {url: "foto1.JPEG", desc: "Agreadezco cada momento contigo 💖"},
+            {url: "foto1.JPEG", desc: "Agradezco cada momento contigo 💖"},
             {url: "foto2.JPEG", desc: "Eres muy especial para mi 🌟"},
             {url: "foto3.JPEG", desc: "Esa sonrisa que ilumina mis días ☀️"},
             {url: "foto4.JPEG", desc: "Te amo Wawa 💕"}
