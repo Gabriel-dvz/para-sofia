@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Sofía linda preciosa ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ffafbd, #ffc3a0);
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            color: #5d001e;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        .heart {
+            font-size: 60px;
+            animation: heartbeat 1.2s infinite;
+            display: inline-block;
+            margin: 20px;
+        }
+        .map-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            background: url('https://cdn.pixabay.com/photo/2018/02/25/20/39/world-map-3181606_1280.png') no-repeat center;
+            background-size: contain;
+            margin: 40px 0;
+        }
+        .point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff4757;
+            border-radius: 50%;
+            animation: glow 2s infinite;
+        }
+        .france {
+            top: 45%;
+            left: 52%;
+        }
+        .chile {
+            top: 75%;
+            left: 25%;
+        }
+        .message {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 40px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .countdown {
+            font-size: 1.5em;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px #ff4757; }
+            50% { box-shadow: 0 0 25px #ff4757; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Para mi Sofía ❤️</h1>
+        <div class="heart">💖</div>
+        
+        <p><em>Aunque kilómetros nos separan, mi corazón siempre está contigo amorcito.</em></p>
+        
+        <div class="map-container">
+            <div class="point france"></div>
+            <div class="point chile"></div>
+        </div>
+        
+        <div class="message">
+            <h2>Mi amor,</h2>
+            <p>
+                Este 14 de febrero no puedo estar físicamente a tu lado, pero quiero que sepas 
+                que te llevo en cada latido, en cada pensamiento y a cada lugar que visito. 
+                Esta pasantía en Francia es temporal, y aunque no esté contigo, mi amor por ti es inmenso. 
+                Cada día que pasa es un día menos para volver a abrazarte y darte besitos.
+            </p>
+            <p>Con todo mi amor,<br><strong>Tu pololo el matatan de la mateo 4</strong></p>
+        </div>
+        
+        <div class="countdown">
+            Faltan <span id="days">--</span> días para volver a verte
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <button onclick="showSurprise()" style="padding: 15px 30px; background:#ff4757; color:white; border:none; border-radius:50px; font-size:1.2em; cursor:pointer;">
+                Haz clic para una sorpresa
+            </button>
+        </div>
+        
+        <div id="surprise" style="display:none; margin-top:30px;">
+            <h3>Te dedico esta canción que es muy especial para mi y me hace pensar en ti 🎵</h3>
+            <iframe width="300" height="200" src="https://youtu.be/Q4G4GG6DSzQ?si=gT0DhEB4GfICvWbR" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+            <!-- Cambia el enlace de YouTube por una canción que sea especial para ustedes -->
+        </div>
+    </div>
+
+    <script>
+        // Countdown
+        const returnDate = new Date('2026-03-05').getTime(); // Cambia a tu fecha de retorno
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = returnDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('days').textContent = days;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 86400000);
+        
+        // Surprise
+        function showSurprise() {
+            document.getElementById('surprise').style.display = 'block';
+        }
+        
+        // Agregar corazones flotantes
+        function createHearts() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.top = Math.random() * 100 + 'vh';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+            heart.style.opacity = '0.7';
+            heart.style.animation = `float ${Math.random() * 5 + 3}s linear infinite`;
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        
+        // Crear corazones cada cierto tiempo
+        setInterval(createHearts, 800);
+        
+        // Agregar estilo para flotar
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+                100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
