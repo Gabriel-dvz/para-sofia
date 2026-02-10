@@ -104,6 +104,106 @@
             </p>
             <p>Con todo mi amor,<br><strong>Tu pololo que te extaña mucho</strong></p>
         </div>
+
+        <!-- CARRUSEL DE FOTOS - Agrega esto después del div class="message" -->
+        <div style="margin: 40px 0; text-align: center;">
+            <h2 style="color: #5d001e; margin-bottom: 20px;">❤️ Recuerdos que guardo en mi corazón ❤️</h2>
+    
+            <div id="carrusel" style="max-width: 500px; margin: 20px auto; position: relative;">
+                <img id="fotoCarrusel" src="foto1.JPEG" 
+                alt="Nuestras fotos" 
+                    style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 5px solid white;">
+        
+                <div style="display: flex; justify-content: space-between; position: absolute; top: 50%; width: 100%; transform: translateY(-50%); padding: 0 10px;">
+                    <button onclick="cambiarFoto(-1)" style="background: rgba(255, 71, 87, 0.8); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; transition: 0.3s;">❮</button>
+                    <button onclick="cambiarFoto(1)" style="background: rgba(255, 71, 87, 0.8); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; transition: 0.3s;">❯</button>
+                </div>
+        
+                <div style="margin-top: 15px; padding: 10px;">
+                    <p id="descripcionFoto" style="font-style: italic; color: #5d001e; font-size: 1.1em; min-height: 30px;">El día que todo comenzó 💖</p>
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                        <span id="punto1" style="width: 12px; height: 12px; background: #ff4757; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+                        <span id="punto2" style="width: 12px; height: 12px; background: #ffafbd; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+                        <span id="punto3" style="width: 12px; height: 12px; background: #ffafbd; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+                        <span id="punto4" style="width: 12px; height: 12px; background: #ffafbd; border-radius: 50%; display: inline-block; cursor: pointer;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+// Configuración del carrusel
+        const fotos = [
+            {url: "foto1.JPEG", desc: "El día que todo comenzó 💖"},
+            {url: "foto2.JPEG", desc: "Nuestra primera aventura juntos 🌟"},
+            {url: "foto3.JPEG", desc: "Esa sonrisa que ilumina mis días ☀️"},
+            {url: "foto4.JPEG", desc: "Prometiéndote amor eterno 💕"}
+        ];
+
+        let fotoActual = 0;
+
+// Función para cambiar foto
+        function cambiarFoto(direccion) {
+    // Actualizar índice
+            fotoActual += direccion;
+            if (fotoActual < 0) fotoActual = fotos.length - 1;
+            if (fotoActual >= fotos.length) fotoActual = 0;
+    
+    // Aplicar transición suave
+            const imagen = document.getElementById('fotoCarrusel');
+            imagen.style.opacity = '0.5';
+    
+            setTimeout(() => {
+                imagen.src = fotos[fotoActual].url;
+                document.getElementById('descripcionFoto').textContent = fotos[fotoActual].desc;
+                actualizarPuntos();
+                imagen.style.opacity = '1';
+            }, 200);
+        }
+
+// Función para ir a una foto específica
+        function irAFoto(indice) {
+            if (indice >= 0 && indice < fotos.length) {
+                fotoActual = indice;
+        
+                const imagen = document.getElementById('fotoCarrusel');
+                imagen.style.opacity = '0.5';
+        
+                setTimeout(() => {
+                    imagen.src = fotos[fotoActual].url;
+                    document.getElementById('descripcionFoto').textContent = fotos[fotoActual].desc;
+                    actualizarPuntos();
+                    imagen.style.opacity = '1';
+                }, 200);
+            }
+        }
+
+// Función para actualizar los puntos indicadores
+        function actualizarPuntos() {
+            for (let i = 0; i < 4; i++) {
+                const punto = document.getElementById(`punto${i + 1}`);
+                if (punto) {
+                    punto.style.background = i === fotoActual ? '#ff4757' : '#ffafbd';
+                    punto.style.width = i === fotoActual ? '15px' : '12px';
+                    punto.style.height = i === fotoActual ? '15px' : '12px';
+                }
+            }
+        }
+
+// Asignar eventos a los puntos
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 0; i < 4; i++) {
+                const punto = document.getElementById(`punto${i + 1}`);
+                if (punto) {
+                    punto.addEventListener('click', () => irAFoto(i));
+                }
+            }
+            actualizarPuntos();
+        });
+
+// Cambiar automáticamente cada 5 segundos
+        setInterval(() => cambiarFoto(1), 5000);
+        </script>
         
         <div class="countdown">
             Faltan <span id="days">--</span> días para volver a verte
